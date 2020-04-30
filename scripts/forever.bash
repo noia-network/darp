@@ -84,7 +84,7 @@ do
                 echo `date` > forever
                 mv /darp /tmp
                 rm -rf /tmp/darp
-               	git clone https://github.com/williambnorton/darp.git
+               	git clone https://github.com/noia-network/darp.git
         fi
         if [ $rc -eq 32 ]; then
                 echo `date` "REBOOT MESSAGE RECEIVED"
