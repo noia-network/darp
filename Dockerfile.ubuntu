@@ -1,0 +1,18 @@
+FROM ubuntu:18.04 as base
+RUN apt-get update && \ 
+    apt install -y npm && \
+    npm install express redis
+WORKDIR /opt
+
+FROM ubuntu:18.04
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends software-properties-common redis-server nodejs npm wget curl iproute2 git && \
+    add-apt-repository ppa:wireguard/wireguard && \
+    apt-get install -y --no-install-recommends wireguard-tools && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/williambnorton/darp.git /root/darp
+COPY --from=base /node_modules .
+EXPOSE 65013/tcp 65013/udp 80/udp 80/tcp
+WORKDIR /root/darp
+ENTRYPOINT [“./bootdarp.bash”]
